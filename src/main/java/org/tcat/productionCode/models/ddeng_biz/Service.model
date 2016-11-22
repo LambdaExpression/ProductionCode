@@ -1,0 +1,15 @@
+package com.model.manage.locked.service;
+
+import java.util.List;
+
+import com.model.manage.locked.bean.${tblNameUppercase};
+
+/**
+ *  ${tblNameComment!tblName} 服务
+ *
+ * @Author ${user} ${date?string("yyyy年MM月dd日")}
+ *
+ */
+public interface ${tblNameUppercase}Service {
+
+}
