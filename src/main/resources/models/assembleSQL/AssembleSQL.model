@@ -1,0 +1,71 @@
+
+	/**
+	 * 生成 ${tblNameComment!tblName} 的sql语句（因为部分字段是一个sql的关键字，所以 ${tblNameComment!tblName} 的语句只能自己手动拼接）
+	 *
+	 * @param ${tblNameLowercase}
+	 * @param type
+	 *            sql类型 1：插入语句 ；2：更新语句
+	 * @return
+	 */
+	private String get${tblNameUppercase}SQL(${tblNameUppercase} ${tblNameLowercase}, Integer type) {
+		if (${tblNameLowercase} == null || type == null) {
+			return null;
+		}
+		StringBuilder sql = new StringBuilder();
+		List<String> key = new ArrayList<String>();
+		List<String> value = new ArrayList<String>();
+		<#if tableVariableType.hasDateClass>
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		</#if>
+        <#list tableVariableList as map>
+            <#if map.variableComment??>
+        //${ map.variableComment}
+            </#if>
+            <#if map.type == 'String'>
+		if (${tblNameLowercase}.get${map.variableUppercase}() != null
+				&& !"".equals(${tblNameLowercase}.get${map.variableUppercase}().trim())) {
+			key.add("`${map.variable}`");
+			value.add(new StringBuffer().append("\"")
+					.append(${tblNameLowercase}.get${map.variableUppercase}()).append("\"").toString());
+            <#elseif map.type == 'Date'>
+		if (${tblNameLowercase}.get${map.variableUppercase}() != null) {
+			key.add("`${map.variable}`");
+			value.add(new StringBuffer().append("'")
+					.append(df.format(${tblNameLowercase}.get${map.variableUppercase}()))
+					.append("'").toString());
+            <#else>
+		if (${tblNameLowercase}.get${map.variableUppercase}() != null) {
+			key.add("`${map.variable}`");
+			value.add(String.valueOf(${tblNameLowercase}.get${map.variableUppercase}()));
+            </#if>
+            <#if map.variable == 'id'>
+        }
+            <#else>
+		} else if (new Integer(2).equals(type)) {
+            key.add("`${map.variable}`");
+            value.add(null);
+        }
+            </#if>
+        </#list>
+		if (key.size() == 0) {
+			return null;
+		}
+		if (new Integer(1).equals(type)) {
+			sql.append("INSERT INTO ${tblName} (")
+					.append(StringUtils.join(key, ",")).append(") values(")
+					.append(StringUtils.join(value, ",")).append(")");
+		} else if (new Integer(2).equals(type)) {
+			List<String> set = new ArrayList<String>();
+			for (int i = 0; i < key.size(); i++) {
+				set.add(new StringBuilder().append(" ").append(key.get(i))
+						.append(" = ").append(value.get(i)).append(" ")
+						.toString());
+			}
+			//TODO 更新语句需要自己根据实际情况追加条件
+			sql.append("UPDATE ${tblName} SET")
+					.append(StringUtils.join(set, ","))
+					.append(" WHERE 1=1 ");
+		}
+
+		return sql.toString();
+	}

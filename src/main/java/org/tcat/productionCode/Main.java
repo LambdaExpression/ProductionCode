@@ -13,13 +13,7 @@ public class Main {
 //        ModelType.modelForWarehouse(tableVo);
 //        ModelType.modelForDdengBiz(tableVo);
 //        ModelType.modelForAssembleSQL(tableVo);
-        TableVo tableVo = TabelData.getData("supplier$shop", "supplier$");
-        ModelType.modelForMrWorld(tableVo);
-        tableVo = TabelData.getData("supplier$shop_banner", "supplier$");
-        ModelType.modelForMrWorld(tableVo);
-        tableVo = TabelData.getData("supplier$shop_introduce", "supplier$");
-        ModelType.modelForMrWorld(tableVo);
-        tableVo = TabelData.getData("supplier$shop_section", "supplier$");
+        TableVo tableVo = TabelData.getData("product$draft", null);
         ModelType.modelForMrWorld(tableVo);
     }
 

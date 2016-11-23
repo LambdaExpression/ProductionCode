@@ -5,8 +5,9 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import org.tcat.tools.BeansConverter;
 
-import java.io.File;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 /**
@@ -25,13 +26,10 @@ public class ModelToFile {
      * @throws TemplateException
      */
     public static void modelToFile(Object data, String model, OutputStreamWriter out) throws IOException, TemplateException {
-        File modelFile=new File(model);
-        if(!isAbsolutePath(model)){
-            modelFile=new File("src\\main\\java\\org\\tcat\\productionCode\\models",model);
-        }
-        Configuration cfg = new Configuration();
-        cfg.setDirectoryForTemplateLoading(modelFile.getParentFile());
-        Template template = cfg.getTemplate(modelFile.getName());
+        Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
+        BufferedReader bufferedReader = new BufferedReader(
+                new InputStreamReader(ClassLoader.getSystemResourceAsStream(new StringBuilder("models\\").append(model).toString()), "utf-8"));
+        Template template = new Template(model, bufferedReader, cfg);
         template.process(BeansConverter.beanToMap(data), out);
         out.flush();
     }

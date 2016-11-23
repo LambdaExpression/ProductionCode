@@ -1,7 +1,5 @@
 package org.tcat.productionCode;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.*;
@@ -19,7 +17,7 @@ public class DBHelper {
     public DBHelper() {
         try {
             Properties properties = new Properties();
-            properties.load(new FileInputStream(new File("src\\main\\java\\org\\tcat\\productionCode\\db.properties")));
+            properties.load(ClassLoader.getSystemResourceAsStream("db.properties"));
             String url = properties.get("jdbc.url").toString();
             String driver = properties.get("jdbc.driver").toString();
             String user = properties.get("jdbc.username").toString();
@@ -63,7 +61,7 @@ public class DBHelper {
     }
 
     public static void main(String[] args) throws SQLException {
-        DBHelper dbHelper=new DBHelper();
+        DBHelper dbHelper = new DBHelper();
         try {
             ResultSet ret = dbHelper.getResultSet("show full columns from `tbl_login`");//执行语句，得到结果集
             while (ret.next()) {

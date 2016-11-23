@@ -1,0 +1,59 @@
+package com.mr.api.product.dto;
+
+import java.io.Serializable;
+<#if tableVariableType.hasDateClass>
+import java.util.Date;
+</#if>
+<#if tableVariableType.hasBigDecimalClass>
+import java.math.BigDecimal;
+</#if>
+
+/**
+ * ${tblNameComment!tblName} 对象类
+ *
+ * @Author ${user} ${date?string("yyyy年MM月dd日")}
+ *
+ */
+public class ${tblNameUppercase}DTO implements Serializable{
+
+	/**
+	 * 序列化id
+	 */
+	private static final long serialVersionUID = 1L;
+
+    <#list tableVariableList as map>
+    /**
+     * ${map.variableComment!map.variableLowercase}
+     */
+    private ${map.type} ${map.variableLowercase};
+    </#list>
+
+    <#list tableVariableList as map>
+	/**
+	 * 获取 ${map.variableComment!map.variableLowercase}
+	 * @return ${map.variableComment!map.variableLowercase}
+	 */
+	public ${map.type} get${map.variableUppercase}() {
+		return ${map.variableLowercase};
+	}
+
+	/**
+	 * 设置 ${map.variableComment!map.variableLowercase}
+	 * @param ${map.variableLowercase} ${map.variableComment!map.variableLowercase}
+	 */
+	public void set${map.variableUppercase}(${map.type} ${map.variableLowercase}) {
+		this.${map.variableLowercase} = ${map.variableLowercase};
+	}
+
+    </#list>
+
+	@Override
+	public String toString() {
+		return "${tblNameUppercase}{" +
+            <#list tableVariableList as map>
+				    "${map.variableLowercase}=" + ${map.variableLowercase} + <#if map_index!=(tableVariableList?size-1)>"," +</#if>
+            </#list>
+				'}';
+	}
+
+}

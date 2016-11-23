@@ -1,0 +1,29 @@
+package com.model.manage.locked.service;
+
+import java.util.ArrayList;
+import java.util.List;
+<#if tableVariableType.hasDateClass>
+import java.util.Date;
+</#if>
+<#if tableVariableType.hasBigDecimalClass>
+import java.math.BigDecimal;
+</#if>
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.model.manage.locked.bean.${tblNameUppercase};
+import com.model.manage.locked.dao.${tblNameUppercase}Dao;
+
+/**
+ * ${tblNameComment!tblName} 服务实现类
+ * 
+ * @Author ${user} ${date?string("yyyy年MM月dd日")}
+ * 
+ */
+@Service
+public class ${tblNameUppercase}ServiceImpl implements ${tblNameUppercase}Service {
+
+}
