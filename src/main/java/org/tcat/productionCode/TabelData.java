@@ -6,6 +6,7 @@ import org.tcat.productionCode.vo.TableVariableVo;
 import org.tcat.productionCode.vo.TableVo;
 import org.tcat.tools.StringTool;
 
+import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -73,6 +74,9 @@ public class TabelData {
                 } else if ("BigDecimal".equals(tableVariableVo.getType())) {
                     tableVariableTypeVo.setHasBigDecimalClass(true);
                 }
+                if (!StringTool.isEmptyByTrim(ret.getString("Key"))) {
+                    tableVariableVo.setPrimaryKey(true);
+                }
                 tableVariableVoList.add(tableVariableVo);
             }
             tableVo.setTableVariableList(tableVariableVoList);
@@ -112,11 +116,11 @@ public class TabelData {
      * @return
      */
     private static String getType(String type) {
-        if ("tinyint".equals(type)) {
+        if ("tinyint".equals(type) || "bit".equals(type)) {
             return "Byte";
         } else if ("smallint".equals(type)) {
             return "Short";
-        } else if ("int".equals(type)) {
+        } else if ("int".equals(type) || "mediumint".equals(type)) {
             return "Integer";
         } else if ("bigint".equals(type)) {
             return "Long";
@@ -129,6 +133,28 @@ public class TabelData {
         } else {
             throw new RuntimeException(new StringBuilder("类型无法匹配 ： ").append(type).toString());
         }
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(new File("E:\\class.txt")));
+        String str = "Service</a></li>";
+        List<String> text = new ArrayList<>();
+        String line = null;
+        while ((line = br.readLine()) != null) {
+            if (line.indexOf(str) != -1)
+                text.add(line);
+            else
+                text.add(new StringBuilder().append("<!-- ").append(line).append(" -->").toString());
+        }
+        BufferedWriter bw = new BufferedWriter(new FileWriter("E:\\out\\class.txt"));
+        for (String t : text) {
+            bw.write(t);
+            bw.newLine();
+        }
+        bw.flush();
+        bw.close();
+        br.close();
+
     }
 
 

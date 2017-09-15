@@ -703,6 +703,7 @@ public class StringTool extends StringUtils {
     public static void main(String[] args) throws Exception {
 
         String str = "abc def_gh";
+        System.out.println(firstLetterUppercase(str));
         System.out.println(initials(str));
         System.out.println(initialsExceptFirst(str));
 //        System.out.println(firstLetterLowercase("ABC DEF"));

@@ -27,6 +27,13 @@ public class TableVariableVo implements Serializable {
      */
     private String variableUppercase;
     /**
+     * 变量名(转成首字母大写（空格和下划线后的字母都是首字母）)
+     * <br><b>
+     * seller_name -> Seller_name
+     * </b>
+     */
+    private String variableUppercase2;
+    /**
      * 变量名(转成首字母小写（其余的首字母大写）)
      * <br><b>
      * seller_name -> sellerName
@@ -41,6 +48,11 @@ public class TableVariableVo implements Serializable {
      * 变量注释
      */
     private String variableComment;
+
+    /**
+     * 是否主键
+     */
+    private Boolean isPrimaryKey = false;
 
     /**
      * 获取 变量名（原名）
@@ -64,6 +76,9 @@ public class TableVariableVo implements Serializable {
         }
         if (variableLowercase == null) {
             variableLowercase = StringTool.initialsExceptFirst(variable);
+        }
+        if (variableUppercase2 == null) {
+            variableUppercase2 = StringTool.firstLetterUppercase(variable);
         }
     }
 
@@ -89,6 +104,30 @@ public class TableVariableVo implements Serializable {
      */
     public void setVariableUppercase(String variableUppercase) {
         this.variableUppercase = variableUppercase;
+    }
+
+    /**
+     * 变量名(转成首字母大写（空格和下划线后的字母都是首字母）)
+     * <br><b>
+     * seller_name -> Seller_name
+     * </b>
+     *
+     * @return 变量名(转成首字母大写（空格和下划线后的字母都是首字母）)
+     */
+    public String getVariableUppercase2() {
+        return variableUppercase2;
+    }
+
+    /**
+     * 变量名(转成首字母大写（空格和下划线后的字母都是首字母）)
+     * <br><b>
+     * seller_name -> Seller_name
+     * </b>
+     *
+     * @param variableUppercase2 变量名(转成首字母大写（空格和下划线后的字母都是首字母）)
+     */
+    public void setVariableUppercase2(String variableUppercase2) {
+        this.variableUppercase2 = variableUppercase2;
     }
 
     /**
@@ -149,6 +188,24 @@ public class TableVariableVo implements Serializable {
      */
     public void setVariableComment(String variableComment) {
         this.variableComment = variableComment;
+    }
+
+    /**
+     * 是否主键
+     *
+     * @return 是否主键
+     */
+    public Boolean getPrimaryKey() {
+        return isPrimaryKey;
+    }
+
+    /**
+     * 是否主键
+     *
+     * @param primaryKey 是否主键
+     */
+    public void setPrimaryKey(Boolean primaryKey) {
+        isPrimaryKey = primaryKey;
     }
 
     @Override

@@ -61,7 +61,9 @@ public class ${tblNameUppercase} implements Serializable{
 	public String toString() {
 		return "${tblNameUppercase}{" +
             <#list tableVariableList as map>
+                if(${map.variableLowercase}!=null){
 				    "${map.variableLowercase}=" + ${map.variableLowercase} + <#if map_index!=(tableVariableList?size-1)>"," +</#if>
+                }
             </#list>
 				'}';
 	}

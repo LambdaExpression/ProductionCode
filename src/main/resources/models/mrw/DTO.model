@@ -40,20 +40,13 @@ public class ${tblNameUppercase}DTO implements Serializable{
 	/**
 	 * 设置 ${map.variableComment!map.variableLowercase}
 	 * @param ${map.variableLowercase} ${map.variableComment!map.variableLowercase}
+	 * @return this
 	 */
-	public void set${map.variableUppercase}(${map.type} ${map.variableLowercase}) {
+	public ${tblNameUppercase}DTO set${map.variableUppercase}(${map.type} ${map.variableLowercase}) {
 		this.${map.variableLowercase} = ${map.variableLowercase};
-	}
+		return this;
 
+	}
     </#list>
-
-	@Override
-	public String toString() {
-		return "${tblNameUppercase}{" +
-            <#list tableVariableList as map>
-				    "${map.variableLowercase}=" + ${map.variableLowercase} + <#if map_index!=(tableVariableList?size-1)>"," +</#if>
-            </#list>
-				'}';
-	}
 
 }

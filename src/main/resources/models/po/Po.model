@@ -1,0 +1,136 @@
+package com.mr.api.product.dto;
+
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.Serializable;
+<#if tableVariableType.hasDateClass>
+import java.util.Date;
+</#if>
+<#if tableVariableType.hasBigDecimalClass>
+import java.math.BigDecimal;
+</#if>
+
+/**
+ * ${tblNameComment!tblName} 对象类
+ *
+ * @Author ${user} ${date?string("yyyy年MM月dd日")}
+ *
+ */
+public class ${tblNameUppercase}Po implements Serializable{
+
+	/**
+	 * 序列化id
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+    <#list tableVariableList as map>
+    /**
+     * ${map.variableComment!map.variable}
+     */
+    private ${map.type} ${map.variable};
+    </#list>
+
+    <#list tableVariableList as map>
+	/**
+	 * 获取 ${map.variableComment!map.variable}
+	 * @return ${map.variableComment!map.variable}
+	 */
+	public ${map.type} get${map.variableUppercase2}() {
+		return ${map.variable};
+	}
+
+	/**
+	 * 设置 ${map.variableComment!map.variable}
+	 * @param ${map.variable} ${map.variableComment!map.variable}
+	 */
+	public void set${map.variableUppercase2}(${map.type} ${map.variable}) {
+		this.${map.variable} = ${map.variable};
+	}
+
+    </#list>
+
+    	/**
+    	 * 生成 ${tblNameComment!tblName} 的sql语句（因为部分字段是一个sql的关键字，所以 ${tblNameComment!tblName} 的语句只能自己手动拼接）
+    	 *
+    	 * @param type
+    	 *            sql类型 1：插入语句 ；2：更新语句
+    	 * @return
+    	 */
+    	public String get${tblNameUppercase}SQL( Integer type) {
+    		if ( type == null) {
+    			return null;
+    		}
+    		StringBuilder sql = new StringBuilder();
+    		List<String> key = new ArrayList<String>();
+    		List<String> value = new ArrayList<String>();
+    		<#if tableVariableType.hasDateClass>
+    		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    		</#if>
+            <#list tableVariableList as map>
+                <#if map.variableComment??>
+            //${ map.variableComment}
+                </#if>
+                <#if map.type == 'String'>
+    		if (this.get${map.variableUppercase2}() != null
+    				&& !"".equals(this.get${map.variableUppercase2}().trim())) {
+    			key.add("`${map.variable}`");
+    			value.add(new StringBuffer().append("\"")
+    					.append(this.get${map.variableUppercase2}().replace("\"","\\\"")).append("\"").toString());
+                <#elseif map.type == 'Date'>
+    		if (this.get${map.variableUppercase2}() != null) {
+    			key.add("`${map.variable}`");
+    			value.add(new StringBuffer().append("'")
+    					.append(df.format(this.get${map.variableUppercase2}().replace("\'","\\\'")))
+    					.append("'").toString());
+                <#else>
+    		if (this.get${map.variableUppercase2}() != null) {
+    			key.add("`${map.variable}`");
+    			value.add(String.valueOf(this.get${map.variableUppercase2}()));
+                </#if>
+                <#if map.variable == 'id'>
+            }
+                <#else>
+    		} else if (new Integer(2).equals(type)) {
+                key.add("`${map.variable}`");
+                value.add(null);
+            }
+                </#if>
+            </#list>
+    		if (key.size() == 0) {
+    			return null;
+    		}
+    		if (new Integer(1).equals(type)) {
+    			sql.append("INSERT INTO ${tblName} (")
+    					.append(StringUtils.join(key, ",")).append(") values(")
+    					.append(StringUtils.join(value, ",")).append(")");
+    		} else if (new Integer(2).equals(type)) {
+    			List<String> set = new ArrayList<String>();
+    			for (int i = 0; i < key.size(); i++) {
+    				set.add(new StringBuilder().append(" ").append(key.get(i))
+    						.append(" = ").append(value.get(i)).append(" ")
+    						.toString());
+    			}
+    			//TODO 更新语句需要自己根据实际情况追加条件
+    			sql.append("UPDATE ${tblName} SET")
+    					.append(StringUtils.join(set, ","))
+    					.append(" WHERE 1=1 ");
+    		}
+
+    		return sql.toString();
+    	}
+
+
+	@Override
+	public String toString() {
+        List<String> result = new ArrayList<>();
+        <#list tableVariableList as map>
+            if(this.get${map.variableUppercase2}()!=null){
+                result.add("${map.variableLowercase}=" + this.get${map.variableUppercase2}());
+            }
+        </#list>
+        return result.stream().collect(Collectors.joining(",", "BuyingRequest{", "}"));
+	}
+
+
+}

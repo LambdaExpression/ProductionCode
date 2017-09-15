@@ -26,12 +26,12 @@
 				&& !"".equals(${tblNameLowercase}.get${map.variableUppercase}().trim())) {
 			key.add("`${map.variable}`");
 			value.add(new StringBuffer().append("\"")
-					.append(${tblNameLowercase}.get${map.variableUppercase}()).append("\"").toString());
+					.append(${tblNameLowercase}.get${map.variableUppercase}().replace("\"","\\\"").replace("'","\\'")).append("\"").toString());
             <#elseif map.type == 'Date'>
 		if (${tblNameLowercase}.get${map.variableUppercase}() != null) {
 			key.add("`${map.variable}`");
 			value.add(new StringBuffer().append("'")
-					.append(df.format(${tblNameLowercase}.get${map.variableUppercase}()))
+					.append(df.format(${tblNameLowercase}.get${map.variableUppercase}().replace("\'","\\\'")))
 					.append("'").toString());
             <#else>
 		if (${tblNameLowercase}.get${map.variableUppercase}() != null) {
