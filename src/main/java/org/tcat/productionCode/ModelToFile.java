@@ -5,10 +5,8 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import org.tcat.tools.BeansConverter;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 /**
  * 把数据和模板结合，生成文件
@@ -28,7 +26,7 @@ public class ModelToFile {
     public static void modelToFile(Object data, String model, OutputStreamWriter out) throws IOException, TemplateException {
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
         BufferedReader bufferedReader = new BufferedReader(
-                new InputStreamReader(ClassLoader.getSystemResourceAsStream(new StringBuilder("models\\").append(model).toString()), "utf-8"));
+                new InputStreamReader(ClassLoader.getSystemResourceAsStream(new StringBuilder("models" + File.separator).append(model).toString()), StandardCharsets.UTF_8));
         Template template = new Template(model, bufferedReader, cfg);
         template.process(BeansConverter.beanToMap(data), out);
         out.flush();

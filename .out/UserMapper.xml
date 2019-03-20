@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.lambdaexpression.dal.user.mapper.UserMapper">
+
+    <sql id="table">`user$user`</sql>
+    <resultMap id="BaseResultMap" type="com.github.lambdaexpression.dal.user.entity.UserEntity"/>
+    <sql id="Base_Column_List">
+         `id` , `name` , `password` , `create_by` , `create_date` , `update_by` , `update_date` 
+    </sql>
+
+    <select id="getList" parameterType="com.github.lambdaexpression.dal.user.query.UserQuery" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from <include refid="table"/>
+        where <include refid="Base_Page_Where"/>
+    </select>
+
+    <!-- 分页查询查询条件 -->
+    <sql id="Base_Page_Where">
+        1=1
+        <if test=" query != null ">
+            <if test=" query.id !=null">
+                and `id` = #{query.id}
+            </if>
+            <if test=" query.name !=null">
+                and `name` = #{query.name}
+            </if>
+            <if test=" query.nameLike !=null">
+                and `name` like concat ('%',#{query.nameLike},'%')
+            </if>
+            <if test=" query.password !=null">
+                and `password` = #{query.password}
+            </if>
+            <if test=" query.passwordLike !=null">
+                and `password` like concat ('%',#{query.passwordLike},'%')
+            </if>
+            <if test=" query.createBy !=null">
+                and `create_by` = #{query.createBy}
+            </if>
+            <if test=" query.createDate !=null">
+                and `create_date` = #{query.createDate}
+            </if>
+            <if test=" query.createDateLte !=null">
+                and `create_date` &lt;= #{query.createDateLte}
+            </if>
+            <if test=" query.createDateGt !=null">
+                and `create_date` &gt; #{query.createDateGt}
+            </if>
+            <if test=" query.updateBy !=null">
+                and `update_by` = #{query.updateBy}
+            </if>
+            <if test=" query.updateDate !=null">
+                and `update_date` = #{query.updateDate}
+            </if>
+            <if test=" query.updateDateLte !=null">
+                and `update_date` &lt;= #{query.updateDateLte}
+            </if>
+            <if test=" query.updateDateGt !=null">
+                and `update_date` &gt; #{query.updateDateGt}
+            </if>
+        </if>
+    </sql>
+
+</mapper>
+

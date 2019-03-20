@@ -18,6 +18,10 @@ public class TableVo implements Serializable {
      */
     private static final long serialVersionUID = 1L;
     /**
+     * 包路径
+     */
+    private String packagePath;
+    /**
      * 表名（原名字）
      * <br><b>
      * seller_order -> seller_order
@@ -60,6 +64,22 @@ public class TableVo implements Serializable {
      * 数据库表变量参数类型
      */
     private TableVariableTypeVo tableVariableType;
+
+    /**
+     * 获取包路径
+     * @return
+     */
+    public String getPackagePath(){
+        return packagePath;
+    }
+
+    /**
+     * 设置包路径
+     * @param packagePath
+     */
+    public void setPackagePath(String packagePath){
+        this.packagePath=packagePath;
+    }
 
     /**
      * 获取 表名（原名字）

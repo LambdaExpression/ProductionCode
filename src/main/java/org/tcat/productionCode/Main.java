@@ -3,14 +3,25 @@ package org.tcat.productionCode;
 
 import org.tcat.productionCode.vo.TableVo;
 
+import java.util.Arrays;
+
 /**
  * Created by Lin on 2016/8/24.
  */
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        TableVo tableVo = TabelData.getData("iw$activities_trade", "iw$");
-        ModelType.modelForMrWorld(tableVo);
+        TableVo tableVo = TabelData.getData("com.github.lambdaexpression.dal.user", "user$user", "user$");
+        ModelType.model(tableVo
+                , Arrays.asList(
+                        "mybatisPlug/Entity.ftl"
+                        , "mybatisPlug/Query.ftl"
+                        , "mybatisPlug/Mapper.ftl"
+                        , "mybatisPlug/MapperXml.ftl"
+                )
+        );
+        tableVo.setPackagePath("com.github.lambdaexpression.server.user");
+
 //        tableVo = TabelData.getData("bo$buying_request_read", "bo$");
 //        ModelType.modelForMrWorld(tableVo);
 //        tableVo = TabelData.getData("dd$district", "dd$");

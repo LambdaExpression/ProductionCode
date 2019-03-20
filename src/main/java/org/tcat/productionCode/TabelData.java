@@ -1,6 +1,7 @@
 package org.tcat.productionCode;
 
 
+import org.apache.commons.lang3.StringUtils;
 import org.tcat.productionCode.vo.TableVariableTypeVo;
 import org.tcat.productionCode.vo.TableVariableVo;
 import org.tcat.productionCode.vo.TableVo;
@@ -29,7 +30,7 @@ public class TabelData {
     }
 
     public static TableVo getData(String tblName) {
-        return getData(tblName, null);
+        return getData("",tblName, null);
     }
 
     /**
@@ -39,12 +40,13 @@ public class TabelData {
      * @param filterString 过滤表前缀
      * @return
      */
-    public static TableVo getData(String tblName, String filterString) {
+    public static TableVo getData(String packagePath,String tblName, String filterString) {
         String showFull = new StringBuilder("show full columns from `").append(tblName).append("`").toString();
         String showTable = new StringBuilder("SHOW CREATE TABLE `").append(tblName).append("`").toString();
         DBHelper dbHelper = new DBHelper();
         ResultSet ret = null;
         TableVo tableVo = new TableVo();
+        tableVo.setPackagePath(packagePath);
         try {
             //获取表注释
             ret = dbHelper.getResultSet(showTable);
@@ -74,7 +76,7 @@ public class TabelData {
                 } else if ("BigDecimal".equals(tableVariableVo.getType())) {
                     tableVariableTypeVo.setHasBigDecimalClass(true);
                 }
-                if (!StringTool.isEmptyByTrim(ret.getString("Key"))) {
+                if (!StringTool.isEmptyByTrim(ret.getString("Key"))&& StringUtils.equals("PRI",ret.getString("Key"))) {
                     tableVariableVo.setPrimaryKey(true);
                 }
                 tableVariableVoList.add(tableVariableVo);

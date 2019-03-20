@@ -52,7 +52,7 @@ public class TableVariableVo implements Serializable {
     /**
      * 是否主键
      */
-    private Boolean isPrimaryKey = false;
+    private Boolean primaryKey = false;
 
     /**
      * 获取 变量名（原名）
@@ -196,7 +196,7 @@ public class TableVariableVo implements Serializable {
      * @return 是否主键
      */
     public Boolean getPrimaryKey() {
-        return isPrimaryKey;
+        return primaryKey;
     }
 
     /**
@@ -205,7 +205,7 @@ public class TableVariableVo implements Serializable {
      * @param primaryKey 是否主键
      */
     public void setPrimaryKey(Boolean primaryKey) {
-        isPrimaryKey = primaryKey;
+        this.primaryKey = primaryKey;
     }
 
     @Override

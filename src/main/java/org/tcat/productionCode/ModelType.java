@@ -1,16 +1,41 @@
 package org.tcat.productionCode;
 
 import freemarker.template.TemplateException;
+import org.apache.commons.io.FileUtils;
 import org.tcat.productionCode.vo.TableVo;
 
 import javax.swing.filechooser.FileSystemView;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Lin on 2016/9/9.
  */
 public class ModelType {
 
+    public static void model(TableVo tableVo, List<String> modelList) {
+        if (Objects.isNull(tableVo) || Objects.isNull(modelList) || modelList.isEmpty()) {
+            return;
+        }
+        String out = System.getProperty("user.dir") + File.separator + ".out";
+        for (String model : modelList) {
+            String name = "name";
+            File file = new File(out);
+            if (!file.isDirectory()) {
+                file.mkdirs();
+            }
+            try {
+                ModelToFile.modelToFile(tableVo, model, new OutputStreamWriter(new FileOutputStream(new File(out, name)), StandardCharsets.UTF_8));
+                List<String> strList = FileUtils.readLines(new File(out, name));
+                FileUtils.writeLines(new File(out, strList.get(0).split(":")[1]), strList.subList(1, strList.size()));
+                FileUtils.forceDelete(new File(out, name));
+            } catch (IOException | TemplateException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     public static void modelForWarehouse(TableVo tableVo) {
 
