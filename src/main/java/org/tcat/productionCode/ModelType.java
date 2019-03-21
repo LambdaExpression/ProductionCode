@@ -20,12 +20,13 @@ public class ModelType {
             return;
         }
         String out = System.getProperty("user.dir") + File.separator + ".out";
+
+        File file = new File(out);
+        if (!file.isDirectory()) {
+            file.mkdirs();
+        }
         for (String model : modelList) {
             String name = "name";
-            File file = new File(out);
-            if (!file.isDirectory()) {
-                file.mkdirs();
-            }
             try {
                 ModelToFile.modelToFile(tableVo, model, new OutputStreamWriter(new FileOutputStream(new File(out, name)), StandardCharsets.UTF_8));
                 List<String> strList = FileUtils.readLines(new File(out, name));

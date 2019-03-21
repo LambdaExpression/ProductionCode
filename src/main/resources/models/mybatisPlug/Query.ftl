@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
  * ${tblNameComment!tblName} 查询对象类
  *
  * @author ${user}
- * @since ${date?string("yyyy-MM-dd")}
+ * @date ${date?string("yyyy-MM-dd")}
  *
  */
 @Data
