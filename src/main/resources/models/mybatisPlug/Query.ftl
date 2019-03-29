@@ -39,7 +39,7 @@ public class ${tblNameUppercase}Query implements Serializable{
 	private ${map.type} ${map.variableLowercase};
     <#if map.type = 'String'>
     /**
-     * 小于等于 ${map.variableComment!map.variableLowercase}
+     * 模糊搜索 ${map.variableComment!map.variableLowercase}
      */
     private ${map.type} ${map.variableLowercase}Like;
     </#if>
